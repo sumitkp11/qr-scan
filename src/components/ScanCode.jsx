@@ -43,7 +43,7 @@ async function getMediaDevices() {
     mediaDevices.getUserMedia({
         video: true,
     }).then((stream) => {
-
+        window.localStream = stream;
         videoPlayer.srcObject = stream;
 
         videoPlayer.onplay = () => {
@@ -97,7 +97,13 @@ async function getMediaDevices() {
 }
 
 function closeCameraOutput() {
+    if (window.localStream) {
+        // Stop all tracks
+        window.localStream.getTracks().forEach(track => track.stop());
+        document.getElementById("vid").srcObject = null;
 
+        console.log("Camera stopped");
+      }
 }
 
 async function checkQrContent(qrData) {
