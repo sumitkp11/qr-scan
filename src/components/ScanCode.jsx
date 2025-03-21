@@ -1,5 +1,6 @@
 
 import jsQR from "jsqr";
+import { useState } from "react";
 export default function ScanCode() {
 
 
@@ -8,14 +9,13 @@ export default function ScanCode() {
             <div>
                 <video className="border-black border-2 m-2 rounded-xl" id="vid" width={400} height={400} muted>hello</video>
                 <canvas id='canvas' width={400} height={400} className="hidden"></canvas>
-
-
             </div>
-            <button className='bg-blue-600 text-white rounded-full p-3 mr-2' id="cameraButton" onClick={getMediaDevices}>Open Camera</button>
+            <button className='bg-blue-600 text-white rounded-full p-3 mr-2' id="cameraButton" onClick={() => {getMediaDevices("user")}}>Front Camera</button>
+            <button className='bg-blue-600 text-white rounded-full p-3 mr-2' id="cameraButton" onClick={() => {getMediaDevices("environment")}}>Back Camera</button>
             <button className='bg-blue-600 text-white rounded-full p-3' id="stopCamera" onClick={closeCameraOutput}>Close Camera</button>
 
             <div>
-                <table>
+                <table className="">
                     <tr >
                         <th className="p-3">SSID</th>
                         <th className="p-3">Password</th>
@@ -32,17 +32,20 @@ export default function ScanCode() {
     )
 }
 
-async function getMediaDevices() {
+async function getMediaDevices(switchCamera) {
 
-    // let cameraBtn = document.getElementById("cameraButton");
     let videoPlayer = document.getElementById("vid");
     let mediaDevices = navigator.mediaDevices;
     let imageData = null;
     let qrCodeData = null;
 
     mediaDevices.getUserMedia({
-        video: true,
-    }).then((stream) => {
+        video: {
+          facingMode: {
+            exact: switchCamera
+          }
+        }
+      }).then((stream) => {
         window.localStream = stream;
         videoPlayer.srcObject = stream;
 
