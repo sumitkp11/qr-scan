@@ -1,6 +1,5 @@
 
 import jsQR from "jsqr";
-import { useState } from "react";
 export default function ScanCode() {
 
 
@@ -10,9 +9,12 @@ export default function ScanCode() {
                 <video className="border-black border-2 m-2 rounded-xl" id="vid" width={400} height={400} muted>hello</video>
                 <canvas id='canvas' width={400} height={400} className="hidden"></canvas>
             </div>
-            <button className='bg-blue-600 text-white rounded-full p-3 mr-2' id="cameraButton" onClick={() => {getMediaDevices("user")}}>Front Camera</button>
-            <button className='bg-blue-600 text-white rounded-full p-3 mr-2' id="cameraButton" onClick={() => {getMediaDevices("environment")}}>Back Camera</button>
-            <button className='bg-blue-600 text-white rounded-full p-3' id="stopCamera" onClick={closeCameraOutput}>Close Camera</button>
+            <button className='md:bg-blue-600 sm:border-black sm:border-2 text-white rounded-full p-3 md:mr-2 sm:mt-2 ' id="cameraButton" onClick={() => { getMediaDevices("user") }}><span className="hidden sm:inline">Front Camera</span>
+            <span className="inline sm:hidden">🤳</span></button>
+            <button className='md:bg-blue-600 sm:border-black sm:border-2 text-white rounded-full p-3 md:mr-2 sm:mt-2 ' id="cameraButton" onClick={() => { getMediaDevices("environment") }}><span className="hidden sm:inline">Back Camera</span>
+            <span className="inline sm:hidden">📷</span></button>
+            <button className='md:bg-blue-600 sm:border-black sm:border-2 text-white rounded-full p-3 md:mr-2 sm:mt-2' id="stopCamera" onClick={closeCameraOutput}><span className="hidden sm:inline">Close Camera</span>
+            <span className="inline sm:hidden">❌</span></button>
 
             <div>
                 <table className="">
@@ -41,11 +43,11 @@ async function getMediaDevices(switchCamera) {
 
     mediaDevices.getUserMedia({
         video: {
-          facingMode: {
-            exact: switchCamera
-          }
+            facingMode: {
+                exact: switchCamera
+            }
         }
-      }).then((stream) => {
+    }).then((stream) => {
         window.localStream = stream;
         videoPlayer.srcObject = stream;
 
@@ -89,6 +91,7 @@ async function getMediaDevices(switchCamera) {
         }
     }).catch((err) => {
         console.log(`Error with camera: ${err}.`);
+        alert("Camera Error. Please try different camera.")
     });
 
     if (qrCodeData) {
@@ -106,7 +109,7 @@ function closeCameraOutput() {
         document.getElementById("vid").srcObject = null;
 
         console.log("Camera stopped");
-      }
+    }
 }
 
 async function checkQrContent(qrData) {
