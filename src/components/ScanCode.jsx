@@ -6,7 +6,7 @@ export default function ScanCode() {
     return (
         <>
             <div>
-                <video className="border-black border-2 m-2 rounded-xl" id="vid" width={400} height={400} muted>hello</video>
+                <video className="border-black border-2 my-2 rounded-xl" id="vid" width={400} height={400} muted>hello</video>
                 <canvas id='canvas' width={400} height={400} className="hidden"></canvas>
             </div>
             <button className='md:bg-blue-600 sm:border-black sm:border-2 text-white rounded-full p-3 md:mr-2 sm:mt-2 ' id="cameraButton" onClick={() => { getMediaDevices("user") }}><span className="hidden sm:inline">Front Camera</span>
@@ -91,7 +91,7 @@ async function getMediaDevices(switchCamera) {
         }
     }).catch((err) => {
         console.log(`Error with camera: ${err}.`);
-        alert("Camera Error. Please try different camera.")
+        alert("Camera Error. Please try different camera or stop camera first.")
     });
 
     if (qrCodeData) {
